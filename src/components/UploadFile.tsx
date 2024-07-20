@@ -1,7 +1,12 @@
 import { Button, Input, InputGroup, Spinner, useToast } from "@chakra-ui/react";
 import { ChangeEvent, useState } from "react";
 import { readFileAsText } from "../utils/read-file";
-import { extractMembers } from "../utils/whatsapp";
+import {
+  extractMembers,
+  getNumberOfAudios,
+  getNumberOfMessages,
+  getNumberOfStickers,
+} from "../utils/whatsapp";
 import { useContacts } from "../context/contacts";
 
 export function UploadFile() {
@@ -31,7 +36,16 @@ export function UploadFile() {
       const content = await readFileAsText(file);
       const contacts = extractMembers(content);
       setIsDisabled(true);
-      setContacts(contacts.map((n) => ({ name: n })));
+      setContacts(
+        contacts.map((name) => {
+          return {
+            name,
+            msgs: getNumberOfMessages(content, name),
+            stickers: getNumberOfStickers(content, name),
+            audios: getNumberOfAudios(content, name),
+          };
+        })
+      );
     } catch (error) {
       toast({
         title: "Error al procesar archivo.",

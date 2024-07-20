@@ -8,10 +8,10 @@ import {
 } from "react";
 
 export interface Contact {
-  name?: string;
-  audios?: number;
-  stickers?: number;
-  msgs?: number;
+  name: string;
+  audios: number;
+  stickers: number;
+  msgs: number;
   seeOneTime?: number;
   images?: number;
   videosAndGifs?: number;
